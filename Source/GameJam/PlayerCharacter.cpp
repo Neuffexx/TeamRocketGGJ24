@@ -71,6 +71,11 @@ void APlayerCharacter::BeginPlay()
 //
 //}
 
+bool APlayerCharacter::GetIsSprinting()
+{
+	return false;
+}
+
 // Called to bind functionality to input
 void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {

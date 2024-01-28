@@ -40,9 +40,15 @@ class AGameJamCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* CrouchAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+		class UInputAction* SprintAction;
+
 public:
 	AGameJamCharacter();
 	bool Simulated = false;
+	bool bIsSprinting = false;
+	UFUNCTION(BlueprintPure)
+		bool GetIsSprinting();
 	
 
 protected:
@@ -58,6 +64,11 @@ protected:
 	/** Called for looking input */
 	void CallUnCrouch(const FInputActionValue& Value);
 
+	/** Called for looking input */
+	void CallSprint(const FInputActionValue& Value);
+	/** Called for looking input */
+	void CallStopSprinting(const FInputActionValue& Value);
+
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -71,4 +82,3 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
-

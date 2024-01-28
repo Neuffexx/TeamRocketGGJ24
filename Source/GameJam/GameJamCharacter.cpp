@@ -51,6 +51,11 @@ AGameJamCharacter::AGameJamCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
 
+bool AGameJamCharacter::GetIsSprinting()
+{
+	return bIsSprinting;
+}
+
 void AGameJamCharacter::BeginPlay()
 {
 	// Call the base class  
@@ -87,6 +92,10 @@ void AGameJamCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 		//Crouching
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Triggered, this, &AGameJamCharacter::CallCrouch);
 		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Completed, this, &AGameJamCharacter::CallUnCrouch);
+
+		//Sprinting
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Triggered, this, &AGameJamCharacter::CallSprint);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AGameJamCharacter::CallStopSprinting);
 	}
 
 }
@@ -135,4 +144,16 @@ void AGameJamCharacter::CallCrouch(const FInputActionValue& Value)
 void AGameJamCharacter::CallUnCrouch(const FInputActionValue& Value)
 {
 	UnCrouch(false);
+}
+
+void AGameJamCharacter::CallSprint(const FInputActionValue& Value)
+{
+	GetCharacterMovement()->MaxWalkSpeed = 900.0f;
+	bIsSprinting = true;
+}
+
+void AGameJamCharacter::CallStopSprinting(const FInputActionValue& Value)
+{
+	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+	bIsSprinting = false;
 }
